@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductInsertFormRequest;
+use Storage;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -14,49 +17,57 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('product/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ProductInsertFormRequest $request)
     {
-        //
+        // $file = $request->file('file');
+        // $filename = uniqid().'_'.$file->getClientOriginalName();
+        // $file->move(public_path().'/uploads/',$filename);  // storage image in public/uploads . 
+        //  Storage::put($file->getClientOriginalName(),file_get_contents($file)); // storing image in storage
+
+        // Product::create([
+        //     'title'=>$request->get('title'),
+        //     'description'=>$request->get('description'),
+        //     'price'=>$request->get('price'),
+        //     'imgs'=>$filename
+        // ]);
+        // return redirect('products/create')->with('status','post inserted successfully');
+
+        $files = $request->file('file');
+        $fileAry = array();
+            foreach($files as $file){
+                 $filename = uniqid() .'_'.$file->getClientOriginalName();
+                 array_push($fileAry,$filename);
+                 $file->move(public_path().'/uploads/',$filename);
+            }
+         Product::create([
+            'title'=>$request->get('title'),
+            'description'=>$request->get('description'),
+            'price'=>$request->get('price'),
+            'imgs'=>serialize($fileAry)
+        ]);
+        return redirect('products/create')->with('status','post inserted successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

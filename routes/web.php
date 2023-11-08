@@ -21,4 +21,8 @@ Route::get('/', 'App\Http\Controllers\PageController@index');
 |--------------------------------------------------------------------------
 */
 Route::get('/products/create','App\Http\Controllers\ProductController@create');
+Route::post('/products/create','App\Http\Controllers\ProductController@store');
+
+Route::get('/products','App\Http\Controllers\PageController@index');
+
 
