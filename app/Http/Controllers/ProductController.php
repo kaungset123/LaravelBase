@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProductInsertFormRequest;
 use Storage;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 
 class ProductController extends Controller
 {
@@ -37,6 +38,8 @@ class ProductController extends Controller
         // ]);
         // return redirect('products/create')->with('status','post inserted successfully');
 
+
+        
         $files = $request->file('file');
         $fileAry = array();
             foreach($files as $file){
@@ -50,8 +53,23 @@ class ProductController extends Controller
             'price'=>$request->get('price'),
             'imgs'=>serialize($fileAry)
         ]);
+
+        $data = [
+            'title'=> "sending as a test",
+            'content'=> "you sent a mail successfully"
+        ];
+
+        Mail::send('email.mail',$data,function($message){
+            $email = 'clanc6581@gmail.com';
+            $username = "kaung";
+            $subject = "I send an email to you";
+            $message->to($email,$username)->subject($subject);
+        });
+        
         return redirect('products/create')->with('status','post inserted successfully');
     }
+
+   
 
     public function show(string $id)
     {
