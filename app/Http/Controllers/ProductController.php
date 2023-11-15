@@ -54,17 +54,17 @@ class ProductController extends Controller
             'imgs'=>serialize($fileAry)
         ]);
 
-        $data = [
-            'title'=> "sending as a test",
-            'content'=> "you sent a mail successfully"
-        ];
+        // $data = [
+        //     'title'=> "sending as a test",
+        //     'content'=> "you sent a mail successfully"
+        // ];
 
-        Mail::send('email.mail',$data,function($message){
-            $email = 'clanc6581@gmail.com';
-            $username = "kaung";
-            $subject = "I send an email to you";
-            $message->to($email,$username)->subject($subject);
-        });
+        // Mail::send('email.mail',$data,function($message){
+        //     $email = 'clanc6581@gmail.com';
+        //     $username = "kaung";
+        //     $subject = "I send an email to you";
+        //     $message->to($email,$username)->subject($subject);
+        // });
         
         return redirect('products/create')->with('status','post inserted successfully');
     }

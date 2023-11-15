@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,9 @@ Route::post('/logout',[UserController::class, 'logout']);
 
 Route::group(array('prefix'=>'admin','namespace'=>'admin','middleware'=>'auth'),function(){
     Route::get('users',[AuthController::class , 'index']);
+    Route::get('roles',[RoleController::class, 'index']);
+    Route::get('roles/create',[RoleController::class, 'create']);
+    Route::post('roles/create',[RoleController::class, 'store']);
 });
 
 
